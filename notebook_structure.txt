@@ -1,0 +1,62 @@
+# JUPYTER NOTEBOOK PSEUDO-FORMAT (TEXT VERSION)
+
+[CELL: MARKDOWN]
+# Data Analysis Project: Atmospheric Trends
+This notebook demonstrates a typical workflow for data processing and visualization. 
+We will start by importing the necessary libraries and then proceed to data simulation.
+
+---
+
+[CELL: CODE]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Set a random seed for reproducibility
+np.random.seed(42)
+
+# Generate synthetic data: 100 days of temperature readings
+days = np.arange(1, 101)
+base_temp = 20
+noise = np.random.normal(0, 2, 100)
+trend = 0.05 * days
+temperatures = base_temp + trend + noise
+
+print(f"Generated {len(temperatures)} data points.")
+print(f"Mean Temperature: {np.mean(temperatures):.2f}°C")
+
+---
+
+[CELL: MARKDOWN]
+## Visualizing the Results
+In this section, we use `matplotlib` to plot the generated temperature trend over time. 
+The plot includes the raw data points and a simple linear trend line.
+
+---
+
+[CELL: CODE]
+plt.figure(figsize=(10, 6))
+plt.plot(days, temperatures, 'o', label='Daily Readings', alpha=0.6)
+plt.plot(days, base_temp + trend, 'r-', label='Underlying Trend', linewidth=2)
+plt.title('Simulated Temperature Rise Over 100 Days')
+plt.xlabel('Day')
+plt.ylabel('Temperature (°C)')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.show()
+
+---
+
+[CELL: MARKDOWN]
+### Summary of Findings
+1. The temperature shows a clear **upward trend** of 0.05 units per day.
+2. Stochastic noise is present but does not obscure the general pattern.
+3. Further analysis would involve calculating the moving average to smooth the noise.
+
+---
+
+[CELL: CODE]
+def moving_average(data, window_size):
+    return np.convolve(data, np.ones(window_size), 'valid') / window_size
+
+smooth_data = moving_average(temperatures, window_size=7)
+print(f"Moving average calculated for window size 7. New length: {len(smooth_data)}")
